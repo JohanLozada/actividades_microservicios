@@ -8,6 +8,10 @@ import org.springframework.http.ResponseEntity;
 @Service
 public class ImplCalcuCientifica implements InteCalcuCientServ {
 
+
+    @Value("${multiplo.numero}")
+    private int valorMaximo;
+
     public ResponseEntity getFactorial(String numero){
         String mensaje;
         int num1 = Integer.parseInt(numero);
@@ -19,8 +23,7 @@ public class ImplCalcuCientifica implements InteCalcuCientServ {
         return ResponseEntity.ok(mensaje);
     }
 
-    @Value("$multiplo_numero")
-    private int valorMaximo;
+
 
     public ResponseEntity getMultiplo(String numero){
         String mensaje= "";

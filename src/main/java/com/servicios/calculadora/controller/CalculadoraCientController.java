@@ -17,7 +17,7 @@ public class CalculadoraCientController {
         this.inteCalcuCientServ = inteCalcuCientServ;
     }
 
-    @GetMapping("factorial/{numero}")
+    @GetMapping("/factorial/{numero}")
     public ResponseEntity getFactorial(@PathVariable String numero){
         return inteCalcuCientServ.getFactorial(numero);
     }

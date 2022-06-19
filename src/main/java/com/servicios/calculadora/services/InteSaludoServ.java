@@ -7,4 +7,5 @@ public interface InteSaludoServ  {
     ResponseEntity getSaludo(String hora);
 
     ResponseEntity getOperaciones();
+
 }
