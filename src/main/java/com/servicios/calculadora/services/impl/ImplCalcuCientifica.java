@@ -8,7 +8,6 @@ import org.springframework.http.ResponseEntity;
 @Service
 public class ImplCalcuCientifica implements InteCalcuCientServ {
 
-
     @Value("${multiplo.numero}")
     private int valorMaximo;
 
@@ -22,8 +21,6 @@ public class ImplCalcuCientifica implements InteCalcuCientServ {
         mensaje = numero +" != "+ resultado;
         return ResponseEntity.ok(mensaje);
     }
-
-
 
     public ResponseEntity getMultiplo(String numero){
         String mensaje= "";

@@ -1,15 +1,14 @@
 package com.servicios.calculadora.services;
 
 import com.servicios.calculadora.dto.EstudianteDTO;
-import com.servicios.calculadora.dto.EstudianteLombokDTO;
 import com.servicios.calculadora.model.EstudianteEntity;
 import org.springframework.http.ResponseEntity;
 
 public interface IEstudianteService {
 
-    ResponseEntity guardarEstudiante(EstudianteEntity estudianteEntity);
+    ResponseEntity guardarEstudiante(EstudianteDTO estudianteDTO);
 
-    ResponseEntity getEstudiantes();
+    ResponseEntity getAllEstudiantes();
 
     ResponseEntity getEstudianteNativeQuery(String nombre);
 
@@ -17,20 +16,24 @@ public interface IEstudianteService {
 
     ResponseEntity getEstudianteJpaRepository(String nombre);
 
-    ResponseEntity putEstudiante(EstudianteEntity estudianteEntity);
+    ResponseEntity putEstudiante(Long id, EstudianteDTO estudianteDTO);
 
-    ResponseEntity actualizarEstudiante(Long id, EstudianteDTO estudianteDTO);
+    ResponseEntity getEstudianteIdNativeQuery(String id);
+
+    ResponseEntity getEstudianteIdJPQL(String id);
+
+    ResponseEntity getEstudianteIdJpaRepository(String id);
 
     ResponseEntity getFechaNativeQuery(String fecha);
 
-    ResponseEntity getFechaJPQL(String a, String m, String d);
+    ResponseEntity getFechaJPQL(String año, String mes, String dia);
 
-    ResponseEntity getFechaJpaRepository(String a, String m, String d);
+    ResponseEntity getFechaJpaRepository(String año, String mes, String dia);
 
     ResponseEntity deleteHard(Long id);
 
     ResponseEntity deleteLogic(Long id);
 
-    ResponseEntity saveEstudiante(EstudianteLombokDTO estudianteLombokDTO);
+
 
 }

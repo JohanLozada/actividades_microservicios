@@ -2,36 +2,37 @@ package com.servicios.calculadora.services.impl;
 
 import com.servicios.calculadora.constants.AppConstants;
 import com.servicios.calculadora.dto.EstudianteDTO;
-import com.servicios.calculadora.dto.EstudianteLombokDTO;
 import com.servicios.calculadora.model.EstudianteEntity;
 import com.servicios.calculadora.repository.EstudianteRepository;
 import com.servicios.calculadora.services.IEstudianteService;
+import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.GetMapping;
 
 import java.util.Date;
 import java.util.GregorianCalendar;
 
+@AllArgsConstructor
 @Service
 class ImplEstudianteService implements IEstudianteService {
 
     private EstudianteRepository estudianteRepository;
 
-    public ImplEstudianteService(EstudianteRepository estudianteRepository){
-        this.estudianteRepository = estudianteRepository;
-    }
-
     @Override
-    public ResponseEntity guardarEstudiante(EstudianteEntity estudianteEntity){
-        estudianteEntity.setFechaCreacion(new Date());
+    public ResponseEntity guardarEstudiante(EstudianteDTO estudianteDTO) {
+        var estudianteEntity = EstudianteEntity.builder()
+                .nombre(estudianteDTO.getNombre())
+                .apellido(estudianteDTO.getApellido())
+                .fechaCreacion(new Date())
+                .build();
         EstudianteEntity estudiante = estudianteRepository.save(estudianteEntity);
         return ResponseEntity.ok(estudiante);
     }
 
     @Override
-    public ResponseEntity getEstudiantes() {
+    public ResponseEntity getAllEstudiantes() {
         return ResponseEntity.ok(estudianteRepository.findAll());
-
     }
 
     @Override
@@ -50,12 +51,18 @@ class ImplEstudianteService implements IEstudianteService {
     }
 
     @Override
-    public ResponseEntity putEstudiante(EstudianteEntity estudianteEntity) {
-        EstudianteEntity estudiante = estudianteRepository.findById(estudianteEntity.getId()).orElse(new EstudianteEntity());
-        estudiante.setNombre(estudianteEntity.getNombre());
-        estudiante.setApellido(estudianteEntity.getApellido());
-        estudianteRepository.save(estudiante);
-        return ResponseEntity.ok("Ha sido actualizado");
+    public ResponseEntity getEstudianteIdNativeQuery(String id){
+        return ResponseEntity.ok(estudianteRepository.buscarPorIdEstudiante(id));
+    }
+
+    @Override
+    public ResponseEntity getEstudianteIdJPQL(String id){
+        return ResponseEntity.ok(estudianteRepository.buscarPorIdEstudianteJPQL((id)));
+    }
+
+    @Override
+    public ResponseEntity getEstudianteIdJpaRepository(String id){
+        return ResponseEntity.ok(estudianteRepository.findById(id));
     }
 
     @Override
@@ -64,24 +71,23 @@ class ImplEstudianteService implements IEstudianteService {
     }
 
     @Override
-    public ResponseEntity getFechaJPQL(String a, String m, String d){
-        GregorianCalendar fechaCalend = new GregorianCalendar(Integer.parseInt(a), Integer.parseInt(m)-1, Integer.parseInt(d));
-        Date fecha = fechaCalend.getTime();
+    public ResponseEntity getFechaJPQL(String año, String mes, String dia){
+        GregorianCalendar dateCalendar = new GregorianCalendar(Integer.parseInt(año), Integer.parseInt(mes)-1, Integer.parseInt(dia));
+        Date fecha = dateCalendar.getTime();
         return ResponseEntity.ok(estudianteRepository.buscarPorFechaJPQL(fecha));
     }
 
     @Override
-    public ResponseEntity getFechaJpaRepository(String a, String m, String d){
-        GregorianCalendar fechacalend = new GregorianCalendar(Integer.parseInt(a), Integer.parseInt(m)-1, Integer.parseInt(d));
-        Date fecha = fechacalend.getTime();
+    public ResponseEntity getFechaJpaRepository(String año, String mes, String dia){
+        GregorianCalendar dateCalendar = new GregorianCalendar(Integer.parseInt(año), Integer.parseInt(mes)-1, Integer.parseInt(dia));
+        Date fecha = dateCalendar.getTime();
         return ResponseEntity.ok(estudianteRepository.findByFechaCreacion(fecha));
 
     }
 
     @Override
-    public ResponseEntity actualizarEstudiante(Long id, EstudianteDTO estudianteDTO) {
+    public ResponseEntity putEstudiante(Long id, EstudianteDTO estudianteDTO) {
         var EstudianteOptional = estudianteRepository.findById(id);
-
         EstudianteEntity estudianteEntity = EstudianteOptional.get();
         estudianteEntity.setNombre(estudianteDTO.getNombre());
         estudianteEntity.setApellido(estudianteDTO.getApellido());
@@ -103,15 +109,6 @@ class ImplEstudianteService implements IEstudianteService {
         estudiante.setFechaEliminacion(new Date());
         estudianteRepository.save(estudiante);
         return ResponseEntity.ok("Se ha eliminado el estudiante");
-    }
-
-    @Override
-    public ResponseEntity saveEstudiante(EstudianteLombokDTO estudianteLombokDTO){
-        EstudianteEntity estudiante = new EstudianteEntity();
-        estudiante.setNombre(estudianteLombokDTO.getNombre());
-        estudiante.setFechaCreacion(new Date());
-        estudiante = estudianteRepository.save(estudiante);
-        return ResponseEntity.ok(estudiante);
     }
 
 }

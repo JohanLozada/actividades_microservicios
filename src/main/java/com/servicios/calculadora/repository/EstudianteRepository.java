@@ -17,6 +17,14 @@ public interface EstudianteRepository  extends JpaRepository<EstudianteEntity,Lo
 
     List<EstudianteEntity> findByNombre(String nombre);
 
+    @Query(value = "SELECT u.* FROM id u WHERE u.id_estudiante = id", nativeQuery = true)
+    List<EstudianteEntity> buscarPorIdEstudiante(String id);
+
+    @Query("SELECT u FROM EstudianteEntity u WHERE u.id = id")
+    List<EstudianteEntity> buscarPorIdEstudianteJPQL(String id);
+
+    List<EstudianteEntity> findById(String id);
+
     @Query(value = "SELECT u.* FROM estudiante u WHERE U.fecha_creacion = :fecha",nativeQuery = true)
     List<EstudianteEntity> buscarPorFechaEstudiante(String fecha);
 

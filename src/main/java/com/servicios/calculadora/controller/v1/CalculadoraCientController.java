@@ -1,4 +1,4 @@
-package com.servicios.calculadora.controller;
+package com.servicios.calculadora.controller.v1;
 
 import com.servicios.calculadora.services.InteCalcuCientServ;
 import org.springframework.http.ResponseEntity;
