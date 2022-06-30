@@ -10,13 +10,13 @@ import java.util.List;
 
 public class EstudianteEntitySample {
 
-    public static ResponseEntity getResponseEstudianteEntity(){
+    public static ResponseEntity getEstudianteEntity(){
         EstudianteEntity estudiante = new EstudianteEntity(1L, "juan", "rodriguez",new Date(), new Date());
         return ResponseEntity.ok(estudiante);
     }
 
 
-    public static EstudianteEntity getEstudianteEntity(){
+    public static EstudianteEntity getEstudianteEntityTest(){
         EstudianteEntity estudianteEntity = EstudianteEntity.builder()
                 .id(1L)
                 .nombre("juan")
@@ -26,11 +26,11 @@ public class EstudianteEntitySample {
         return estudianteEntity;
     }
 
-    public static List<EstudianteEntity> getListEstudianteEntity(){
-        return (List<EstudianteEntity>) getResponseListEstudianteEntity().getBody();
+    public static List<EstudianteEntity> getListEstudianteEntityTest(){
+        return (List<EstudianteEntity>) getListEstudianteEntity().getBody();
     }
 
-    public static ResponseEntity getResponseListEstudianteEntity(){
+    public static ResponseEntity getListEstudianteEntity(){
         List<EstudianteEntity> estudianteEntityList = new ArrayList<>();
         EstudianteEntity estudiante = EstudianteEntity.builder()
                 .id(1L)
